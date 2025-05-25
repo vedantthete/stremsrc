@@ -80,11 +80,16 @@ const manifest = {
   id: "community.stremsrc",
   version: "0.0.1",
   catalogs: [],
-  resources: ["stream"],
+  resources: [
+    {
+      name: "stream",
+      types: ["movie", "series", "anime"],
+      idPrefixes: ["tt", "kitsu"],
+    },
+  ],
   types: ["movie", "series"],
   name: "stremsrc",
   description: "A VidSRC extractor for stremio",
-  idPrefixes: ["tt"],
 };
 const builder = new addonBuilder(manifest);
 
