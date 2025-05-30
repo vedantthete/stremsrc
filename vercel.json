@@ -2,9 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "functions": {
-    "dist/index.js": {
-      "runtime": "nodejs18.x"
-    }
+    "dist/index.js": {}
   },
   "rewrites": [{ "source": "/(.*)", "destination": "/dist/index.js" }]
 }
