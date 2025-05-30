@@ -1,3 +1,8 @@
+/*
+written by github.com/cool-dev-guy
+modified and updated by github.com/theditor
+*/
+
 import { ContentType } from "stremio-addon-sdk";
 import * as cheerio from "cheerio";
 

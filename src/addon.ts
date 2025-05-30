@@ -9,7 +9,7 @@ const manifest: Manifest = {
     {
       name: "stream",
       types: ["movie", "series"],
-      idPrefixes: ["tt", "kitsu"],
+      idPrefixes: ["tt"],
     },
   ],
   types: ["movie", "series"],
