@@ -10,7 +10,6 @@ StremSRC is a Stremio addon that extracts streaming sources from VidSRC, allowin
 
 - **Movie Support**: Extract streams for movies using IMDB IDs
 - **TV Series Support**: Extract streams for TV episodes using IMDB IDs with season/episode format
-- **Multiple Sources**: Automatically discovers and processes multiple streaming servers
 - **Stremio Integration**: Seamless integration with Stremio's interface
 
 ## Installation
