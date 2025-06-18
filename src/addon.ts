@@ -42,7 +42,7 @@ builder.defineStreamHandler(
         if (st.stream == null) continue;
         streams.push({
           title: st.name ?? "Unknown",
-          url: st.stream,
+          url: newSt,
           behaviorHints: { notWebReady: true },
         });
       }
