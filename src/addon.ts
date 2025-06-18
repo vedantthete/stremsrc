@@ -19,6 +19,30 @@ const manifest: Manifest = {
 
 const builder = new addonBuilder(manifest);
 
+const parseM3U8 = async function (masterText: any, title: any) {
+  const lines = masterText.trim().split('\n');
+  const streams: Stream[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.startsWith('#EXT-X-STREAM-INF:')) {
+      const info = line.replace('#EXT-X-STREAM-INF:', '');
+      const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${lines[i + 1]?.trim()}`;
+
+      const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
+
+      streams.push({
+        title: `${title} ${resolutionMatch ? resolutionMatch[1] : null}`,
+        url,
+        behaviorHints: { notWebReady: true }
+      });
+    }
+  }
+
+  return streams;
+}
+
 builder.defineStreamHandler(
   async ({
     id,
@@ -28,7 +52,7 @@ builder.defineStreamHandler(
   }> => {
     try {
       const res = await getStreamContent(id, type);
-      
+
       if (!res) {
         return { streams: [] };
       }
@@ -36,12 +60,15 @@ builder.defineStreamHandler(
       let streams: Stream[] = [];
       for (const st of res) {
         if (st.stream == null) continue;
-        let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
-        streams.push({
-          title: st.name ?? "Unknown",
-          url: newSt,
-          behaviorHints: { notWebReady: true },
-        });
+        let masterRes = await fetch(st.stream)
+        let masterText = await masterRes.text()
+        streams = await parseM3U8(masterText, st.name ?? "Unknown")
+        // let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
+        // streams.push({
+        //   title: st.name ?? "Unknown",
+        //   url: newSt,
+        //   behaviorHints: { notWebReady: true },
+        // });
       }
       console.error('==========', streams)
       return { streams: streams };

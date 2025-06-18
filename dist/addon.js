@@ -19,7 +19,7 @@ const manifest = {
         {
             name: "stream",
             types: ["movie", "series"],
-            idPrefixes: ["tt", "kitsu"],
+            idPrefixes: ["tt"],
         },
     ],
     types: ["movie", "series"],
@@ -27,6 +27,27 @@ const manifest = {
     description: "A VidSRC extractor for stremio",
 };
 const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
+const parseM3U8 = function (masterText, title) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a;
+        const lines = masterText.trim().split('\n');
+        const streams = [];
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.startsWith('#EXT-X-STREAM-INF:')) {
+                const info = line.replace('#EXT-X-STREAM-INF:', '');
+                const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
+                const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
+                streams.push({
+                    title: `${title} ${resolutionMatch ? resolutionMatch[1] : null}`,
+                    url,
+                    behaviorHints: { notWebReady: true }
+                });
+            }
+        }
+        return streams;
+    });
+};
 builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({ id, type, }) {
     var _b;
     try {
@@ -38,13 +59,17 @@ builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({
         for (const st of res) {
             if (st.stream == null)
                 continue;
-            let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
-            streams.push({
-                title: (_b = st.name) !== null && _b !== void 0 ? _b : "Unknown",
-                url: newSt,
-                behaviorHints: { notWebReady: true },
-            });
+            let masterRes = yield fetch(st.stream);
+            let masterText = yield masterRes.text();
+            streams = yield parseM3U8(masterText, (_b = st.name) !== null && _b !== void 0 ? _b : "Unknown");
+            // let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
+            // streams.push({
+            //   title: st.name ?? "Unknown",
+            //   url: newSt,
+            //   behaviorHints: { notWebReady: true },
+            // });
         }
+        console.error('==========', streams);
         return { streams: streams };
     }
     catch (error) {
