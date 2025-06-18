@@ -33,7 +33,8 @@ const parseM3U8 = function (masterText, st) {
         const lines = masterText.trim().split('\n');
         const streams = [];
         streams.push({
-            title: `${(_a = st.name) !== null && _a !== void 0 ? _a : "Unknown"} (Auto)`,
+            title: `${(_a = st.name) !== null && _a !== void 0 ? _a : "Unknown"}`,
+            description: `Resolution: Auto`,
             url: `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
@@ -45,7 +46,8 @@ const parseM3U8 = function (masterText, st) {
                 const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${baseDomain}${(_b = lines[i + 1]) === null || _b === void 0 ? void 0 : _b.trim()}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
-                    title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"} (${resolutionMatch ? resolutionMatch[1] : null})`,
+                    title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+                    description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
                 });

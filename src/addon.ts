@@ -23,7 +23,8 @@ const parseM3U8 = async function (masterText: any, st: any) {
   const lines = masterText.trim().split('\n');
   const streams: Stream[] = [];
   streams.push({
-    title: `${st.name ?? "Unknown"} (Auto)`,
+    title: `${st.name ?? "Unknown"}`,
+    description: `Resolution: Auto`,
     url: `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })
@@ -38,7 +39,8 @@ const parseM3U8 = async function (masterText: any, st: any) {
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
 
       streams.push({
-        title: `${st.name ?? "Unknown"} (${resolutionMatch ? resolutionMatch[1] : null})`,
+        title: `${st.name ?? "Unknown"}`,
+        description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
         url,
         behaviorHints: { notWebReady: true }
       });
