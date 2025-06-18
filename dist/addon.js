@@ -27,32 +27,34 @@ const manifest = {
     description: "A VidSRC extractor for stremio",
 };
 const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
+const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev';
 const parseM3U8 = function (masterText, st) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c;
         const lines = masterText.trim().split('\n');
         const streams = [];
-        streams.push({
-            title: `${(_a = st.name) !== null && _a !== void 0 ? _a : "Unknown"}`,
-            description: `Resolution: Auto`,
-            url: `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`,
-            behaviorHints: { notWebReady: true }
-        });
         let baseDomain = st.stream.split('/pl/')[0];
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             if (line.startsWith('#EXT-X-STREAM-INF:')) {
                 const info = line.replace('#EXT-X-STREAM-INF:', '');
-                const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${baseDomain}${(_b = lines[i + 1]) === null || _b === void 0 ? void 0 : _b.trim()}`;
+                const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
-                    title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+                    title: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
                     description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
                 });
             }
         }
+        streams.reverse();
+        streams.push({
+            title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+            description: `Resolution: Auto`,
+            url: `${pxyDomain}/${st.stream}`,
+            behaviorHints: { notWebReady: true }
+        });
         return streams;
     });
 };
@@ -68,13 +70,7 @@ builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({
                 continue;
             let masterRes = yield fetch(st.stream);
             let masterText = yield masterRes.text();
-            // let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
             streams = yield parseM3U8(masterText, st);
-            // streams.push({
-            //   title: st.name ?? "Unknown",
-            //   url: newSt,
-            //   behaviorHints: { notWebReady: true },
-            // });
         }
         return { streams: streams };
     }
