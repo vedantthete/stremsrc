@@ -29,11 +29,11 @@ const manifest = {
 const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
 const parseM3U8 = function (masterText, st) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b;
+        var _a, _b, _c;
         const lines = masterText.trim().split('\n');
         const streams = [];
         streams.push({
-            title: `Auto ${st.title}`,
+            title: `Auto ${(_a = st.name) !== null && _a !== void 0 ? _a : "Unknown"}`,
             url: `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
@@ -41,10 +41,10 @@ const parseM3U8 = function (masterText, st) {
             const line = lines[i];
             if (line.startsWith('#EXT-X-STREAM-INF:')) {
                 const info = line.replace('#EXT-X-STREAM-INF:', '');
-                const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
+                const url = `https://solitary-grass-77bc.hostproxy.workers.dev${(_b = lines[i + 1]) === null || _b === void 0 ? void 0 : _b.trim()}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
-                    title: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"} ${resolutionMatch ? resolutionMatch[1] : null}`,
+                    title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"} ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
                 });
