@@ -38,9 +38,10 @@ builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({
         for (const st of res) {
             if (st.stream == null)
                 continue;
+            let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
             streams.push({
                 title: (_b = st.name) !== null && _b !== void 0 ? _b : "Unknown",
-                url: st.stream,
+                url: newSt,
                 behaviorHints: { notWebReady: true },
             });
         }
