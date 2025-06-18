@@ -35,11 +35,8 @@ builder.defineStreamHandler(
 
       let streams: Stream[] = [];
       for (const st of res) {
-        let newSt = st.stream.replace(
-          'https://tmstr3.shadowlandschronicles.com',
-          'https://solitary-grass-77bc.hostproxy.workers.dev'
-        )
         if (st.stream == null) continue;
+        let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
         streams.push({
           title: st.name ?? "Unknown",
           url: newSt,
