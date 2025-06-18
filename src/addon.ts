@@ -32,7 +32,7 @@ const parseM3U8 = async function (masterText: any, st: any) {
 
     if (line.startsWith('#EXT-X-STREAM-INF:')) {
       const info = line.replace('#EXT-X-STREAM-INF:', '');
-      const url = `https://solitary-grass-77bc.hostproxy.workers.dev/${lines[i + 1]?.trim()}`;
+      const url = `https://solitary-grass-77bc.hostproxy.workers.dev${lines[i + 1]?.trim()}`;
 
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
 
