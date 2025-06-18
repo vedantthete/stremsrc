@@ -43,6 +43,7 @@ builder.defineStreamHandler(
           behaviorHints: { notWebReady: true },
         });
       }
+      console.log('==========', streams)
       return { streams: streams };
     } catch (error) {
       console.error('Stream extraction failed:', error);
