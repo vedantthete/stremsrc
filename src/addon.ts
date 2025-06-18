@@ -19,10 +19,14 @@ const manifest: Manifest = {
 
 const builder = new addonBuilder(manifest);
 
-const parseM3U8 = async function (masterText: any, title: any) {
+const parseM3U8 = async function (masterText: any, st: any) {
   const lines = masterText.trim().split('\n');
   const streams: Stream[] = [];
-
+  streams.push({
+    title: `Auto ${st.title}`,
+    url: `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`,
+    behaviorHints: { notWebReady: true }
+  })
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
@@ -33,10 +37,11 @@ const parseM3U8 = async function (masterText: any, title: any) {
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
 
       streams.push({
-        title: `${title} ${resolutionMatch ? resolutionMatch[1] : null}`,
+        title: `${st.name ?? "Unknown"} ${resolutionMatch ? resolutionMatch[1] : null}`,
         url,
         behaviorHints: { notWebReady: true }
       });
+
     }
   }
 
@@ -62,8 +67,9 @@ builder.defineStreamHandler(
         if (st.stream == null) continue;
         let masterRes = await fetch(st.stream)
         let masterText = await masterRes.text()
-        streams = await parseM3U8(masterText, st.name ?? "Unknown")
         // let newSt = `https://solitary-grass-77bc.hostproxy.workers.dev/${st.stream}`
+        streams = await parseM3U8(masterText, st)
+        
         // streams.push({
         //   title: st.name ?? "Unknown",
         //   url: newSt,
