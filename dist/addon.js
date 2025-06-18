@@ -41,7 +41,7 @@ const parseM3U8 = function (masterText, st) {
                 const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
-                    title: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
+                    name: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
                     description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
@@ -50,7 +50,7 @@ const parseM3U8 = function (masterText, st) {
         }
         streams.reverse();
         streams.push({
-            title: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+            name: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
             description: `Resolution: Auto`,
             url: `${pxyDomain}/${st.stream}`,
             behaviorHints: { notWebReady: true }
