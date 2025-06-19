@@ -19,7 +19,7 @@ const manifest: Manifest = {
 
 const builder = new addonBuilder(manifest);
 const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev'
-const parseM3U8 = async function (masterText: any, st: any) {
+const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) {
   const lines = masterText.trim().split('\n');
   const streams: Stream[] = [];
   
@@ -29,7 +29,7 @@ const parseM3U8 = async function (masterText: any, st: any) {
 
     if (line.startsWith('#EXT-X-STREAM-INF:')) {
       const info = line.replace('#EXT-X-STREAM-INF:', '');
-      const url = `${pxyDomain}/${baseDomain}${lines[i + 1]?.trim()}`;
+      const url = `${pxyDomain}/${baseDomain}${lines[i + 1]?.trim()}?type=${type}&id=${id}`;
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
       streams.push({
         name: `${st.name ?? "Unknown"}`,
@@ -70,7 +70,7 @@ builder.defineStreamHandler(
         if (st.stream == null) continue;
         let masterRes = await fetch(st.stream)
         let masterText = await masterRes.text()
-        streams = await parseM3U8(masterText, st)
+        streams = await parseM3U8(masterText, st, type, id)
       }
       return { streams: streams };
     } catch (error) {

@@ -28,7 +28,7 @@ const manifest = {
 };
 const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
 const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev';
-const parseM3U8 = function (masterText, st) {
+const parseM3U8 = function (masterText, st, type, id) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c;
         const lines = masterText.trim().split('\n');
@@ -38,7 +38,7 @@ const parseM3U8 = function (masterText, st) {
             const line = lines[i];
             if (line.startsWith('#EXT-X-STREAM-INF:')) {
                 const info = line.replace('#EXT-X-STREAM-INF:', '');
-                const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
+                const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}?type=${type}&id=${id}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
                     name: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
@@ -70,7 +70,7 @@ builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({
                 continue;
             let masterRes = yield fetch(st.stream);
             let masterText = yield masterRes.text();
-            streams = yield parseM3U8(masterText, st);
+            streams = yield parseM3U8(masterText, st, type, id);
         }
         return { streams: streams };
     }
