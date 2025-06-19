@@ -33,7 +33,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
       streams.push({
         description: `${st.name ?? "Unknown"}`,
-        name: `Stremsrc | Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
+        name: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`,
         url,
         behaviorHints: { notWebReady: true }
       });
@@ -43,7 +43,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   streams.reverse()
   streams.push({
     description: `${st.name ?? "Unknown"}`,
-    name: `Stremsrc | Resolution: Auto`,
+    name: `Stremsrc | Auto`,
     url: `${pxyDomain}/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })
