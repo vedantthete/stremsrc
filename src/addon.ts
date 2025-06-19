@@ -32,8 +32,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
       const url = `${pxyDomain}/${baseDomain}${lines[i + 1]?.trim()}?type=${type}&id=${id}`;
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
       streams.push({
-        name: `${st.name ?? "Unknown"}`,
-        description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
+        description: `${st.name ?? "Unknown"}`,
+        name: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
         url,
         behaviorHints: { notWebReady: true }
       });
@@ -42,8 +42,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   }
   streams.reverse()
   streams.push({
-    name: `${st.name ?? "Unknown"}`,
-    description: `Resolution: Auto`,
+    description: `${st.name ?? "Unknown"}`,
+    name: `Resolution: Auto`,
     url: `${pxyDomain}/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })

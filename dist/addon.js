@@ -41,8 +41,8 @@ const parseM3U8 = function (masterText, st, type, id) {
                 const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}?type=${type}&id=${id}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
-                    name: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
-                    description: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
+                    description: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
+                    name: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
                 });
@@ -50,8 +50,8 @@ const parseM3U8 = function (masterText, st, type, id) {
         }
         streams.reverse();
         streams.push({
-            name: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
-            description: `Resolution: Auto`,
+            description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+            name: `Resolution: Auto`,
             url: `${pxyDomain}/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
