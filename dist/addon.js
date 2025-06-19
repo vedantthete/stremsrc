@@ -42,7 +42,7 @@ const parseM3U8 = function (masterText, st, type, id) {
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
                     description: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
-                    name: `Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
+                    name: `Stremsrc | Resolution: ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
                     behaviorHints: { notWebReady: true }
                 });
@@ -51,7 +51,7 @@ const parseM3U8 = function (masterText, st, type, id) {
         streams.reverse();
         streams.push({
             description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
-            name: `Resolution: Auto`,
+            name: `Stremsrc | Resolution: Auto`,
             url: `${pxyDomain}/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
