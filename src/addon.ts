@@ -49,8 +49,14 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   })
   streams.push({
     description: `${st.name ?? "Unknown"}`,
-    name: `Stremsrc | GH-CDN Beta`,
+    name: `Experimental | JSDeliver Beta`,
     url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
+    behaviorHints: { notWebReady: true }
+  })
+  streams.push({
+    description: `${st.name ?? "Unknown"}`,
+    name: `Experimental | GHCDN Beta`,
+    url: `https://github.com/gconsole001/${id}/raw/refs/heads/main/index.m3u8`,
     behaviorHints: { notWebReady: true }
   })
 
