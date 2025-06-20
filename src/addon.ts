@@ -47,6 +47,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     url: `${pxyDomain}/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })
+  id = id.replaceAll(':', '_')
   streams.push({
     description: `${st.name ?? "Unknown"}`,
     name: `Experimental | JSDeliver Beta`,
@@ -56,7 +57,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   streams.push({
     description: `${st.name ?? "Unknown"}`,
     name: `Experimental | GHCDN Beta`,
-    url: `https://github.com/gconsole001/${id}/raw/refs/heads/main/index.m3u8`,
+    url: `https://raw.githubusercontent.com/gconsole001/${id}/refs/heads/main/index.m3u8`,
     behaviorHints: { notWebReady: true }
   })
 

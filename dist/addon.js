@@ -55,6 +55,7 @@ const parseM3U8 = function (masterText, st, type, id) {
             url: `${pxyDomain}/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
+        id = id.replaceAll(':', '_');
         streams.push({
             description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
             name: `Experimental | JSDeliver Beta`,
@@ -64,7 +65,7 @@ const parseM3U8 = function (masterText, st, type, id) {
         streams.push({
             description: `${(_e = st.name) !== null && _e !== void 0 ? _e : "Unknown"}`,
             name: `Experimental | GHCDN Beta`,
-            url: `https://github.com/gconsole001/${id}/raw/refs/heads/main/index.m3u8`,
+            url: `https://raw.githubusercontent.com/gconsole001/${id}/refs/heads/main/index.m3u8`,
             behaviorHints: { notWebReady: true }
         });
         return streams;
