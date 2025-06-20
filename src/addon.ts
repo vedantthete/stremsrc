@@ -47,6 +47,13 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     url: `${pxyDomain}/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })
+  streams.push({
+    description: `${st.name ?? "Unknown"}`,
+    name: `Stremsrc | GH-CDN Beta`,
+    url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
+    behaviorHints: { notWebReady: true }
+  })
+
 
   return streams;
 }

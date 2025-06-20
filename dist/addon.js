@@ -30,7 +30,7 @@ const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
 const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev';
 const parseM3U8 = function (masterText, st, type, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         const lines = masterText.trim().split('\n');
         const streams = [];
         let baseDomain = st.stream.split('/pl/')[0];
@@ -53,6 +53,12 @@ const parseM3U8 = function (masterText, st, type, id) {
             description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
             name: `Stremsrc | Auto`,
             url: `${pxyDomain}/${st.stream}`,
+            behaviorHints: { notWebReady: true }
+        });
+        streams.push({
+            description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
+            name: `Stremsrc | GH-CDN Beta`,
+            url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
             behaviorHints: { notWebReady: true }
         });
         return streams;
