@@ -48,30 +48,31 @@ const parseM3U8 = function (masterText, st, type, id) {
                 });
             }
         }
+        let autoRes = {
+            description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
+            name: `Stremsrc | Auto`,
+            url: `${pxyDomain}/${st.stream}?type=${type}&id=${id}`,
+            behaviorHints: { notWebReady: true }
+        };
         id = id.replaceAll(':', '-');
         let ghUrl = `https://raw.githubusercontent.com/gconsole001/${id}/refs/heads/main/index.m3u8`;
         let ghExists = yield fetch(ghUrl);
         if (ghExists.status == 200) {
-            streams.push({
-                description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
-                name: `Experimental | JSDeliver Beta`,
-                url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
-                behaviorHints: { notWebReady: true }
-            });
             streams.push({
                 description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
                 name: `Experimental | GHCDN Beta`,
                 url: ghUrl,
                 behaviorHints: { notWebReady: true }
             });
+            streams.push({
+                description: `${(_e = st.name) !== null && _e !== void 0 ? _e : "Unknown"}`,
+                name: `Experimental | JSDeliver Beta`,
+                url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
+                behaviorHints: { notWebReady: true }
+            });
         }
         streams.reverse();
-        streams.push({
-            description: `${(_e = st.name) !== null && _e !== void 0 ? _e : "Unknown"}`,
-            name: `Stremsrc | Auto`,
-            url: `${pxyDomain}/${st.stream}`,
-            behaviorHints: { notWebReady: true }
-        });
+        streams.push(autoRes);
         return streams;
     });
 };
