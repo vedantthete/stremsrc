@@ -47,7 +47,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     url: `${pxyDomain}/${st.stream}`,
     behaviorHints: { notWebReady: true }
   })
-  id = id.replaceAll(':', '_')
+  id = id.replaceAll(':', '-')
   streams.push({
     description: `${st.name ?? "Unknown"}`,
     name: `Experimental | JSDeliver Beta`,

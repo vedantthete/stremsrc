@@ -55,7 +55,7 @@ const parseM3U8 = function (masterText, st, type, id) {
             url: `${pxyDomain}/${st.stream}`,
             behaviorHints: { notWebReady: true }
         });
-        id = id.replaceAll(':', '_');
+        id = id.replaceAll(':', '-');
         streams.push({
             description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
             name: `Experimental | JSDeliver Beta`,
