@@ -47,7 +47,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     behaviorHints: { notWebReady: true }
   }
   id = id.replaceAll(':', '-')
-  let ghUrl = `https://raw.githubusercontent.com/gconsole001/${id}/refs/heads/main/index.m3u8`
+  let ghUrl = `https://raw.githubusercontent.com/gconsole00/${id}/refs/heads/main/index.m3u8`
   let ghExists = await fetch(ghUrl)
   if (ghExists.status == 200) {
     streams.push({
@@ -59,7 +59,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     streams.push({
       description: `${st.name ?? "Unknown"}`,
       name: `Experimental | JSDeliver Beta`,
-      url: `https://cdn.jsdelivr.net/gh/gconsole001/${id}@main/index.m3u8`,
+      url: `https://cdn.jsdelivr.net/gh/gconsole00/${id}@main/index.m3u8`,
       behaviorHints: { notWebReady: true }
     })
   }
