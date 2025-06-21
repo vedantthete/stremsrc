@@ -44,7 +44,10 @@ const parseM3U8 = function (masterText, st, type, id) {
                     description: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
                     name: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`,
                     url,
-                    behaviorHints: { notWebReady: true }
+                    behaviorHints: {
+                        notWebReady: true,
+                        bingeGroup: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`
+                    }
                 });
             }
         }
@@ -52,7 +55,10 @@ const parseM3U8 = function (masterText, st, type, id) {
             description: `${(_c = st.name) !== null && _c !== void 0 ? _c : "Unknown"}`,
             name: `Stremsrc | Auto`,
             url: `${pxyDomain}/${st.stream}?type=${type}&id=${id}`,
-            behaviorHints: { notWebReady: true }
+            behaviorHints: {
+                notWebReady: true,
+                bingeGroup: `Stremsrc | Auto`
+            }
         };
         id = id.replaceAll(':', '-');
         let ghUrl = `https://raw.githubusercontent.com/gconsole00/${id}/refs/heads/main/index.m3u8`;
@@ -62,13 +68,19 @@ const parseM3U8 = function (masterText, st, type, id) {
                 description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
                 name: `Experimental | GHCDN Beta`,
                 url: ghUrl,
-                behaviorHints: { notWebReady: true }
+                behaviorHints: {
+                    notWebReady: true,
+                    bingeGroup: `Experimental | GHCDN Beta`
+                }
             });
             streams.push({
                 description: `${(_e = st.name) !== null && _e !== void 0 ? _e : "Unknown"}`,
                 name: `Experimental | JSDeliver Beta`,
                 url: `https://cdn.jsdelivr.net/gh/gconsole00/${id}@main/index.m3u8`,
-                behaviorHints: { notWebReady: true }
+                behaviorHints: {
+                    notWebReady: true,
+                    bingeGroup: `Experimental | JSDeliver Beta`
+                }
             });
         }
         streams.reverse();
