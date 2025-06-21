@@ -37,7 +37,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
         url,
         behaviorHints: { 
           notWebReady: true,
-          bingeGroup: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`
+          bingeGroup: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`,
+          filename: `${st.name ?? "Unknown"}`
         }
       });
 
@@ -49,7 +50,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
     url: `${pxyDomain}/${st.stream}?type=${type}&id=${id}`,
     behaviorHints: { 
       notWebReady: true,
-      bingeGroup: `Stremsrc | Auto`
+      bingeGroup: `Stremsrc | Auto`,
+      filename: `${st.name ?? "Unknown"}`
     }
   }
   id = id.replaceAll(':', '-')
@@ -62,7 +64,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
       url: ghUrl,
       behaviorHints: { 
         notWebReady: true,
-        bingeGroup: `Experimental | GHCDN Beta`
+        bingeGroup: `Experimental | GHCDN Beta`,
+        filename: `${st.name ?? "Unknown"}`
       }
     })
     streams.push({
@@ -71,7 +74,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
       url: `https://cdn.jsdelivr.net/gh/gconsole00/${id}@main/index.m3u8`,
       behaviorHints: { 
         notWebReady: true,
-        bingeGroup: `Experimental | JSDeliver Beta`
+        bingeGroup: `Experimental | JSDeliver Beta`,
+        filename: `${st.name ?? "Unknown"}`
       }
     })
   }
