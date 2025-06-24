@@ -54,35 +54,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
       filename: `${st.name ?? "Unknown"}`
     }
   }
-  id = id.replaceAll(':', '-')
-  let ghUrl = `https://raw.githubusercontent.com/gconsole00/${id}/refs/heads/main/index.m3u8`
-  let ghExists = await fetch(ghUrl)
-  if (ghExists.status == 200) {
-    streams.push({
-      description: `${st.name ?? "Unknown"}`,
-      name: `Experimental | GHCDN Beta`,
-      url: ghUrl,
-      behaviorHints: { 
-        notWebReady: true,
-        bingeGroup: `Experimental | GHCDN Beta`,
-        filename: `${st.name ?? "Unknown"}`
-      }
-    })
-    streams.push({
-      description: `${st.name ?? "Unknown"}`,
-      name: `Experimental | JSDeliver Beta`,
-      url: `https://cdn.jsdelivr.net/gh/gconsole00/${id}@main/index.m3u8`,
-      behaviorHints: { 
-        notWebReady: true,
-        bingeGroup: `Experimental | JSDeliver Beta`,
-        filename: `${st.name ?? "Unknown"}`
-      }
-    })
-  }
   streams.reverse()
   streams.push(autoRes)
-
-
   return streams;
 }
 

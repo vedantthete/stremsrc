@@ -30,7 +30,7 @@ const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
 const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev';
 const parseM3U8 = function (masterText, st, type, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e;
         const lines = masterText.trim().split('\n');
         const streams = [];
         let baseDomain = st.stream.split('/pl/')[0];
@@ -62,31 +62,6 @@ const parseM3U8 = function (masterText, st, type, id) {
                 filename: `${(_e = st.name) !== null && _e !== void 0 ? _e : "Unknown"}`
             }
         };
-        id = id.replaceAll(':', '-');
-        let ghUrl = `https://raw.githubusercontent.com/gconsole00/${id}/refs/heads/main/index.m3u8`;
-        let ghExists = yield fetch(ghUrl);
-        if (ghExists.status == 200) {
-            streams.push({
-                description: `${(_f = st.name) !== null && _f !== void 0 ? _f : "Unknown"}`,
-                name: `Experimental | GHCDN Beta`,
-                url: ghUrl,
-                behaviorHints: {
-                    notWebReady: true,
-                    bingeGroup: `Experimental | GHCDN Beta`,
-                    filename: `${(_g = st.name) !== null && _g !== void 0 ? _g : "Unknown"}`
-                }
-            });
-            streams.push({
-                description: `${(_h = st.name) !== null && _h !== void 0 ? _h : "Unknown"}`,
-                name: `Experimental | JSDeliver Beta`,
-                url: `https://cdn.jsdelivr.net/gh/gconsole00/${id}@main/index.m3u8`,
-                behaviorHints: {
-                    notWebReady: true,
-                    bingeGroup: `Experimental | JSDeliver Beta`,
-                    filename: `${(_j = st.name) !== null && _j !== void 0 ? _j : "Unknown"}`
-                }
-            });
-        }
         streams.reverse();
         streams.push(autoRes);
         return streams;
