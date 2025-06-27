@@ -19,13 +19,13 @@ let createRepo = (id) => __awaiter(void 0, void 0, void 0, function* () {
         return;
     }
     let body = {
-        "owner": "gconsole00",
+        "owner": `${process.env.GH_ACCOUNT}`,
         "name": `${id}`,
         "description": "This is your first repository",
         "include_all_branches": false,
         "private": false
     };
-    let response = yield fetch('https://api.github.com/repos/gconsole001/base/generate', {
+    let response = yield fetch(`https://api.github.com/repos/${process.env.GH_ACCOUNT}1/base/generate`, {
         method: 'POST',
         headers: {
             'Accept': 'application/vnd.github+json',

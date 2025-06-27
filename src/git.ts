@@ -8,13 +8,14 @@ let createRepo = async (id) => {
         return
     }
     let body = {
-        "owner": "gconsole00",
+        "owner": `${process.env.GH_ACCOUNT}`,
         "name": `${id}`,
         "description": "This is your first repository",
         "include_all_branches": false,
         "private": false
     }
-    let response = await fetch('https://api.github.com/repos/gconsole001/base/generate', {
+    let response = await fetch(
+        `https://api.github.com/repos/${process.env.GH_ACCOUNT}1/base/generate`, {
         method: 'POST',
         headers: {
             'Accept': 'application/vnd.github+json',
