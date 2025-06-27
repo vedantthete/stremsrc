@@ -1,3 +1,5 @@
+// @ts-nocheck
+import createRepo from './git.js'
 import { addonBuilder, Manifest, Stream } from "stremio-addon-sdk";
 import { getStreamContent } from "./extractor";
 
@@ -29,13 +31,13 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
 
     if (line.startsWith('#EXT-X-STREAM-INF:')) {
       const info = line.replace('#EXT-X-STREAM-INF:', '');
-      const url = `${pxyDomain}/${baseDomain}${lines[i + 1]?.trim()}?type=${type}&id=${id}`;
+      const url = `${baseDomain}${lines[i + 1]?.trim()}?type=${type}&id=${id}`;
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
       streams.push({
         description: `${st.name ?? "Unknown"}`,
         name: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`,
         url,
-        behaviorHints: { 
+        behaviorHints: {
           notWebReady: true,
           bingeGroup: `Stremsrc | ${resolutionMatch ? resolutionMatch[1] : null}`,
           filename: `${st.name ?? "Unknown"}`
@@ -47,8 +49,8 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   let autoRes = {
     description: `${st.name ?? "Unknown"}`,
     name: `Stremsrc | Auto`,
-    url: `${pxyDomain}/${st.stream}?type=${type}&id=${id}`,
-    behaviorHints: { 
+    url: `${st.stream}?type=${type}&id=${id}`,
+    behaviorHints: {
       notWebReady: true,
       bingeGroup: `Stremsrc | Auto`,
       filename: `${st.name ?? "Unknown"}`
@@ -68,6 +70,13 @@ builder.defineStreamHandler(
   }> => {
     try {
       const res = await getStreamContent(id, type);
+      await createRepo(id)
+      if (type == "series") {
+        let [showId, season, episode] = id.split(':')
+        let nextEpisode = parseInt(episode) + 1
+        let nextId = `${showId}:${season}:${nextEpisode}`
+        await createRepo(nextId)
+      }
 
       if (!res) {
         return { streams: [] };

@@ -8,7 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-nocheck
+const git_js_1 = __importDefault(require("./git.js"));
 const stremio_addon_sdk_1 = require("stremio-addon-sdk");
 const extractor_1 = require("./extractor");
 const manifest = {
@@ -38,7 +43,7 @@ const parseM3U8 = function (masterText, st, type, id) {
             const line = lines[i];
             if (line.startsWith('#EXT-X-STREAM-INF:')) {
                 const info = line.replace('#EXT-X-STREAM-INF:', '');
-                const url = `${pxyDomain}/${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}?type=${type}&id=${id}`;
+                const url = `${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}?type=${type}&id=${id}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
                     description: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
@@ -55,7 +60,7 @@ const parseM3U8 = function (masterText, st, type, id) {
         let autoRes = {
             description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
             name: `Stremsrc | Auto`,
-            url: `${pxyDomain}/${st.stream}?type=${type}&id=${id}`,
+            url: `${st.stream}?type=${type}&id=${id}`,
             behaviorHints: {
                 notWebReady: true,
                 bingeGroup: `Stremsrc | Auto`,
@@ -70,6 +75,13 @@ const parseM3U8 = function (masterText, st, type, id) {
 builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({ id, type, }) {
     try {
         const res = yield (0, extractor_1.getStreamContent)(id, type);
+        yield (0, git_js_1.default)(id);
+        if (type == "series") {
+            let [showId, season, episode] = id.split(':');
+            let nextEpisode = parseInt(episode) + 1;
+            let nextId = `${showId}:${season}:${nextEpisode}`;
+            yield (0, git_js_1.default)(nextId);
+        }
         if (!res) {
             return { streams: [] };
         }
