@@ -70,14 +70,6 @@ builder.defineStreamHandler(
   }> => {
     try {
       const res = await getStreamContent(id, type);
-      await createRepo(id)
-      if (type == "series") {
-        let [showId, season, episode] = id.split(':')
-        let nextEpisode = parseInt(episode) + 1
-        let nextId = `${showId}:${season}:${nextEpisode}`
-        await createRepo(nextId)
-      }
-
       if (!res) {
         return { streams: [] };
       }
