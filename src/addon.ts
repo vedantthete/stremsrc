@@ -1,5 +1,5 @@
 // @ts-nocheck
-import createRepo from './git.js'
+import createRepo from './git'
 import { addonBuilder, Manifest, Stream } from "stremio-addon-sdk";
 import { getStreamContent } from "./extractor";
 
