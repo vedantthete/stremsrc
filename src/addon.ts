@@ -57,19 +57,6 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   }
   streams.reverse()
   streams.push(autoRes)
-  streams.push(
-    {
-    description: `Test`,
-    name: `Stremsrc | Auto`,
-    url: `https://cloudflare-playwright-example.hostproxy.workers.dev/tv/1399/1/1?play=true`,
-    behaviorHints: {
-      notWebReady: true,
-      bingeGroup: `Stremsrc | Auto`,
-      filename: `${st.name ?? "Unknown"}`,
-      proxyHeaders: { "request": { "Referer": "https://player.videasy.net/" } }
-    }
-  }
-  )
   return streams;
 }
 
