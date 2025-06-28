@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-nocheck
-const git_1 = __importDefault(require("./git"));
 const stremio_addon_sdk_1 = require("stremio-addon-sdk");
 const extractor_1 = require("./extractor");
 const manifest = {
@@ -75,13 +71,6 @@ const parseM3U8 = function (masterText, st, type, id) {
 builder.defineStreamHandler((_a) => __awaiter(void 0, [_a], void 0, function* ({ id, type, }) {
     try {
         const res = yield (0, extractor_1.getStreamContent)(id, type);
-        yield (0, git_1.default)(id);
-        if (type == "series") {
-            let [showId, season, episode] = id.split(':');
-            let nextEpisode = parseInt(episode) + 1;
-            let nextId = `${showId}:${season}:${nextEpisode}`;
-            yield (0, git_1.default)(nextId);
-        }
         if (!res) {
             return { streams: [] };
         }
