@@ -31,7 +31,7 @@ const builder = new stremio_addon_sdk_1.addonBuilder(manifest);
 const pxyDomain = 'https://solitary-grass-77bc.hostproxy.workers.dev';
 const parseM3U8 = function (masterText, st, type, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         const lines = masterText.trim().split('\n');
         const streams = [];
         let baseDomain = st.stream.split('/pl/')[0];
@@ -65,6 +65,17 @@ const parseM3U8 = function (masterText, st, type, id) {
         };
         streams.reverse();
         streams.push(autoRes);
+        streams.push({
+            description: `Test`,
+            name: `Stremsrc | Auto`,
+            url: `https://cloudflare-playwright-example.hostproxy.workers.dev/tv/1399/1/1?play=true`,
+            behaviorHints: {
+                notWebReady: true,
+                bingeGroup: `Stremsrc | Auto`,
+                filename: `${(_f = st.name) !== null && _f !== void 0 ? _f : "Unknown"}`,
+                proxyHeaders: { "request": { "Referer": "https://player.videasy.net/" } }
+            }
+        });
         return streams;
     });
 };
