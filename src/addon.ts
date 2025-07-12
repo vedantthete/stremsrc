@@ -30,7 +30,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
 
     if (line.startsWith('#EXT-X-STREAM-INF:')) {
       const info = line.replace('#EXT-X-STREAM-INF:', '');
-      const url = `${baseDomain}${lines[i + 1]?.trim()}?type=${type}&id=${id}`;
+      const url = `${baseDomain}${lines[i + 1]?.trim()}`;
       const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
       streams.push({
         description: `${st.name ?? "Unknown"}`,
@@ -48,7 +48,7 @@ const parseM3U8 = async function (masterText: any, st: any, type: any, id: any) 
   let autoRes = {
     description: `${st.name ?? "Unknown"}`,
     name: `Stremsrc | Auto`,
-    url: `${st.stream}?type=${type}&id=${id}`,
+    url: `${st.stream}`,
     behaviorHints: {
       notWebReady: true,
       bingeGroup: `Stremsrc | Auto`,
