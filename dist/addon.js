@@ -39,7 +39,7 @@ const parseM3U8 = function (masterText, st, type, id) {
             const line = lines[i];
             if (line.startsWith('#EXT-X-STREAM-INF:')) {
                 const info = line.replace('#EXT-X-STREAM-INF:', '');
-                const url = `${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}?type=${type}&id=${id}`;
+                const url = `${baseDomain}${(_a = lines[i + 1]) === null || _a === void 0 ? void 0 : _a.trim()}`;
                 const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
                 streams.push({
                     description: `${(_b = st.name) !== null && _b !== void 0 ? _b : "Unknown"}`,
@@ -56,7 +56,7 @@ const parseM3U8 = function (masterText, st, type, id) {
         let autoRes = {
             description: `${(_d = st.name) !== null && _d !== void 0 ? _d : "Unknown"}`,
             name: `Stremsrc | Auto`,
-            url: `${st.stream}?type=${type}&id=${id}`,
+            url: `${st.stream}`,
             behaviorHints: {
                 notWebReady: true,
                 bingeGroup: `Stremsrc | Auto`,
